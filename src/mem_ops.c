@@ -8,7 +8,7 @@ void *xallocaarray (size_t nmemb, size_t size)
 	if ((nmemb >= MUL_NO_OVERFLOW || size >= MUL_NO_OVERFLOW) && nmemb > 0 && SIZE_MAX / nmemb < size) 
 	{
 		DEBUG("integer overflow block");
-		return NULL;
+		exit(0);
 	}
 	size_t maxmem=nmemb*size;
 
@@ -19,7 +19,7 @@ void *xallocaarray (size_t nmemb, size_t size)
 	if (ptr == NULL)
 	{ 
 		DEBUG("error in xallocarray() function");
-		exit(1);
+		exit(0);
 	}
 
 
@@ -36,7 +36,7 @@ void *xmallocarray (size_t nmemb, size_t size)
 	if ((nmemb >= MUL_NO_OVERFLOW || size >= MUL_NO_OVERFLOW) && nmemb > 0 && SIZE_MAX / nmemb < size) 
 	{
 		DEBUG("integer overflow block");
-		return NULL;
+		exit(0);
 	}
 
 	void *ptr = malloc (nmemb*size);
@@ -45,7 +45,7 @@ void *xmallocarray (size_t nmemb, size_t size)
 	{
  
 		DEBUG("error in xmallocarray() function");
-		exit(1);
+		exit(0);
 	}
 
 	return ptr;
@@ -56,7 +56,7 @@ static void *xmalloc_fatal(size_t size)
 
 	DEBUG("\n Memory FAILURE...\n Size dbg: %lu\n",size);
 
-	exit(1);
+	exit(0);
 }
 
 void *xmalloc (size_t size) 
