@@ -53,10 +53,8 @@ void *xmallocarray (size_t nmemb, size_t size)
 
 static void *xmalloc_fatal(size_t size) 
 {
-	if ( size == 0 ) 
-		return NULL;
 
-	DEBUG("\n Memory FAILURE...\n");
+	DEBUG("\n Memory FAILURE...\n Size dbg: %lu\n",size);
 
 	exit(1);
 }
