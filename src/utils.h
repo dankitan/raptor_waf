@@ -1,3 +1,7 @@
+#ifndef __UTILS_H__
+#define __UTILS_H__
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -36,3 +40,5 @@ void load_signal_alarm (void);
 char from_hex(char ch);
 char *urldecode(char *str, int size) ;
 char *deadspace(char *str);
+
+#endif

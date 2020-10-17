@@ -1,3 +1,7 @@
+#ifndef __MATCH_ALGORITHMS_H__
+#define __MATCH_ALGORITHMS_H__
+
+
 #include <stdio.h>	
 #include <sys/types.h>
 #include <string.h>
@@ -34,3 +38,4 @@ bool pcre_regex_search(const char *string,int string_len,const char *expression)
 */
 
 
+#endif

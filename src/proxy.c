@@ -84,11 +84,17 @@ void tcp_bind_and_listen(int socket, int port)
  	getaddrinfo(NULL, tmp, &hints, &res);
 
 
- 	if (bind(socket, res->ai_addr, res->ai_addrlen) < 0) 
+ 	if (bind(socket, res->ai_addr, res->ai_addrlen) < 0)
+	{	
  		DEBUG("bind to port %d failure!\n", port);
+		exit(0);
+	}
 
 	if (listen(socket, LENGTH_OF_LISTEN_QUEUE) < 0) 
+	{
  		DEBUG("call listen failure!\n");
+		exit(0);
+	}
 
 	freeaddrinfo(res);
 
@@ -108,7 +114,6 @@ int tcp_connect_to_stamp(const char* stamp, int port)
  	char tmp[6]; // max is 65535
  	snprintf(tmp,sizeof(tmp),"%5d",port);
  	getaddrinfo(stamp, tmp, &hints, &res);
-
 
 	if (connect(stamp_socket,res->ai_addr, res->ai_addrlen) < 0)       
 	{

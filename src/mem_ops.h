@@ -1,3 +1,6 @@
+#ifndef __MEM_OPS_H__
+#define __MEM_OPS_H__
+
 #include <stdio.h>	
 #include <sys/types.h>
 #include <string.h>		
@@ -20,4 +23,6 @@ void *xrealloc (void *ptr, size_t size);
 void xfree(void **ptr);
 volatile void *burn_mem(volatile void *dst, int c, size_t len); 
 volatile void *burn_memcpy(volatile void *dst, volatile void *src, size_t len);
-volatile void *burn_memmove(volatile void *dst, volatile void *src, size_t len); 
+volatile void *burn_memmove(volatile void *dst, volatile void *src, size_t len);
+
+#endif

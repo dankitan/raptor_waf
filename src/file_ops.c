@@ -3,7 +3,7 @@
 
 
 // write line in file
-int WriteFile(char *file,char *str)
+void WriteFile(char *file,char *str)
 {
 	FILE *arq;
  
@@ -12,8 +12,9 @@ int WriteFile(char *file,char *str)
 	if ( arq == NULL ) 
 	{
 //		fclose(arq);
-		DEBUG("error in WriteFile() %s",file); 
-		return 0;
+		DEBUG("error in WriteFile() %s",file);
+	        exit(0);
+		
 	}
 
 	fprintf(arq,"%s\n",str); 
@@ -21,12 +22,11 @@ int WriteFile(char *file,char *str)
 	if( fclose(arq) == EOF )
 	{
 		DEBUG("error in Write() file %s",file);
-		return 0;
+		exit(0);
 	}
 	arq=NULL;
  
 
-	return 1;
 }
 
 

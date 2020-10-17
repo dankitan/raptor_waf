@@ -1,3 +1,7 @@
+#ifndef __VALIDATE_H__
+#define __VALIDATE_H__
+
+
 #include <stdio.h>
 
 struct choice  {
@@ -12,3 +16,6 @@ struct choice  {
 struct choice param;
 
 void isnull_argv();
+
+
+#endif

@@ -1,9 +1,11 @@
+#ifndef __PROXY_H__
+#define __PROXY_H__
+
 #include <stdio.h>
 #include <errno.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <strings.h>
 #include <pthread.h>
 #include <sys/socket.h>
@@ -38,3 +40,5 @@ int tcp_connect_to_stamp(const char* stamp, int port);
 int bridge_of_data(int from_socket, int to_socket, char *logfile, int wafmode,short match_option);
 void *tcp_server_handler(void* arg);
 void tcp_reverse_proxy(int server_port, const char* stamp, int stamp_port, int waf_mode, char *logname, short option_match);
+
+#endif

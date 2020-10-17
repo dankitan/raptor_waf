@@ -6,6 +6,6 @@
 //#include "mem_ops.h"
 
 char *readLine(char * NameFile);
-int WriteFile(char *file,char *str);
+void WriteFile(char *file,char *str);
 long FileSize(const char *file);
 char *Random_linefile(char * namefile);

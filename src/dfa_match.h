@@ -14,6 +14,9 @@ some thing like ../,..\  etc...
 
 
 */
+#ifndef __DFA_MATCH_H__
+#define __DFA_MATCH_H__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,3 +35,4 @@ bool is_request(char *ptr);
 int block_waf_level1(char** p, char** lex);
 int block_waf_level2(char** p, char** lex);
 
+#endif

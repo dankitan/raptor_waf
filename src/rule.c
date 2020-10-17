@@ -1,13 +1,3 @@
-#include <stdio.h>
-#include <errno.h>
-#include <netdb.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <sys/socket.h> 
-#include <stdbool.h>
-#include <time.h>
 #include "utils.h"
 #include "mem_ops.h"
 #include "dfa_match.h"
