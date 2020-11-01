@@ -4,7 +4,7 @@
 #include "file_ops.h"
 #include "blacklist.h"
 #include "matchlist.h"
-#include "../lib/BSD/strsec.h"
+#include "BSD/strsec.h"
 
 
 bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, int wafmode, short match_option)

@@ -1,5 +1,5 @@
 #include "proxy.h"
-#include "../lib/BSD/strsec.h"
+#include "BSD/strsec.h"
 
 /*
 items of struct tcp_server_thread_info

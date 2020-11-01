@@ -2,9 +2,11 @@ export MALLOC_MMAP_THRESHOLD_=1
 export MALLOC_CHECK_=1
 export MALLOC_PERTURB_=1
 CC=gcc
-CFLAGS=-g -W -Wall -O1 -fstack-protector-all 
+CFLAGS=-g -W -Wall -O1
+HARDENING= -mmitigate-rop -fstack-protector-all -pie -fPIE -ftrapv
 DFLAGS= lib/BSD/strsec.c
 DIR=src/
+DIR_HEADERS=src/include/
 DIROUT=bin/
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
@@ -21,8 +23,8 @@ Raptor: $(DIR)Raptor.c
 	@echo "    '\( ,_.-'                                           "  
 	@echo "       \\               \"             \"          Compile !"    
 	@echo "       ^\' "
-	$(CC) $(CFLAGS) $(DFLAGS) -c $(DIR)*.c
-	$(CC) -o $(DIROUT)Raptor *.o $(LDFLAGS)
+	$(CC) $(CFLAGS) $(DFLAGS) -c $(DIR)*.c -I$(DIR_HEADERS) -Ilib
+	$(CC) -o $(DIROUT)Raptor *.o $(LDFLAGS) $(HARDENING) 
 	$(shell make clean)
 	@echo "  "
 	@echo " Execute \"bin/Raptor\" to start...  "   

@@ -17,7 +17,7 @@
 #include "mem_ops.h"
 //#include "dfa_match.h"
 #include "file_ops.h"
-#include "../lib/BSD/strsec.h"
+#include "BSD/strsec.h"
 #include "blacklist.h"
 
 

@@ -1,6 +1,6 @@
 #include "mem_ops.h"
 #include "utils.h"
-#include "../lib/BSD/strsec.h"
+#include "BSD/strsec.h"
 #include "match_algorithms.h"
 
 /* read lines of file matchlist.txt and test if match strings

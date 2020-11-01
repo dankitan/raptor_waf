@@ -1,7 +1,7 @@
 #include "blacklist.h"
 #include "mem_ops.h"
 #include "utils.h"
-#include "../lib/BSD/strsec.h"
+#include "BSD/strsec.h"
 
 //read lines of file
 bool blacklist_ip(char * addr)
