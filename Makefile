@@ -6,7 +6,7 @@ CFLAGS=-g -W -Wall -O1
 HARDENING= -mmitigate-rop -fstack-protector-all -pie -fPIE -ftrapv
 DFLAGS= lib/BSD/strsec.c
 DIR=src/
-DIR_HEADERS=src/include/
+DIR_HEADERS=src/headers/
 DIROUT=bin/
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
