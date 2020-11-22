@@ -53,3 +53,6 @@ Check sec test
 # Look the docs
 
 https://github.com/CoolerVoid/raptor_waf/blob/master/doc/raptor.pdf
+
+Please look this other WAF, if yopu need more performance and no race conditions
+https://github.com/CoolerVoid/OctopusWAF
