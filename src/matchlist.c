@@ -32,13 +32,17 @@ char *matchlist(char *input,int input_len, short option_algorithm)
 
 	char line[1024];
 
-	burn_mem(line,0,1023);
+	
 
-	while( fgets(line,sizeof(line),arq) && at_list==false )
+	while(at_list==false )
 	{
+		burn_mem(line,0,1023);
+		if (fgets(line,sizeof(line),arq) == NULL)
+			break;
+
 		line_len=strnlen(line,1023);		
 		line[line_len+1]='\0';	
-
+		
 // remove \n\0 etc... sub -2 at line_len
 		if(line_len>4)		
 			switch(option_algorithm)
@@ -58,9 +62,7 @@ char *matchlist(char *input,int input_len, short option_algorithm)
 				case 4:
 				at_list=pcre_regex_search(input, input_len, line);
 				break; 
-			}
-
-		burn_mem(line,0,1023);
+			}		
 	}
 
 	if( fclose(arq) == EOF )

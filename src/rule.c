@@ -30,7 +30,12 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 // wash the request before pass to filter ;-)
 	char *tmpbuf=urldecode(buf,BUF_SIZE); // function at utils.h
 	char *clbuf=deadspace(tmpbuf); // function at utils.h, this function remove all spaces ' ' aka remove blanks of string
-	char *match_string=matchlist(tmpbuf,BUF_SIZE,match_option); // matchlist.c
+	char *match_string=NULL; // matchlist.c
+
+//We call this function only if it is a request, otherwise it is unnecessary computation since the response is not used.
+	if (isrequest==true){
+		match_string = matchlist(tmpbuf,BUF_SIZE,match_option);
+	}
 
 	if(isrequest==true && match_option>0 && match_string!=NULL) 
 	{
