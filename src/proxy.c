@@ -126,6 +126,35 @@ int tcp_connect_to_stamp(const char* stamp, int port)
 	return stamp_socket;
 }
 
+// this is to check the content_length of the post request
+int check_response(unsigned char *buf, int recvbytes){
+	unsigned char *ptr_content;
+	unsigned char *start_ptr;
+	unsigned char *end_ptr;
+	unsigned char *data;
+	int content_length;
+	int headers_size;
+	if(buf[0]=='P' && buf[1]=='O' && buf[2]=='S' && buf[3]=='T'){
+			ptr_content = strnstr(buf,"Content-Length: ", recvbytes);
+
+			if (ptr_content != NULL){
+					start_ptr = strnstr(ptr_content,": ", recvbytes-(buf-ptr_content));
+					content_length = strtol(start_ptr+2, &end_ptr, 10);
+					
+					data = strnstr(buf,"\r\n\r\n", recvbytes);
+					headers_size = data+4 - buf;
+					
+					if (headers_size + content_length > recvbytes){
+							return content_length;
+					}
+			}
+
+	}
+	return 0;
+
+}
+
+
 // this is core function to send requests to test Requests
 int bridge_of_data(int from_socket, int to_socket, char *logfile, int wafmode,short match_option)
 {
@@ -134,6 +163,13 @@ int bridge_of_data(int from_socket, int to_socket, char *logfile, int wafmode,sh
 
 	burn_mem(buf,0,BUF_SIZE-1);
 	int recvbytes = recv(from_socket, buf, BUF_SIZE-1, 0);
+//check if in the post request we have the headers and content length. In golang, headers and data 
+//are sent in separate packets. We receive the following tcp packet and reassemble it.
+	int more_data=check_response(buf, recvbytes);
+	if (more_data){
+		recvbytes+=recv(from_socket, buf+recvbytes, BUF_SIZE-1-recvbytes,0);
+	}
+
 	int sendbytes=0;
 	bool block=false;
 
@@ -235,7 +271,7 @@ void *tcp_server_handler(void* arg)
 
 
 	close(pinfo->accepted_socket);
-	
+
 	xfree(&arg);
 
     close(stamp_socket);
