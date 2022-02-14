@@ -234,9 +234,11 @@ void *tcp_server_handler(void* arg)
     	}
 
 
+	close(pinfo->accepted_socket);
+	
 	xfree(&arg);
 
-    	close(stamp_socket);
+    close(stamp_socket);
 
 	return 0;	
 }
