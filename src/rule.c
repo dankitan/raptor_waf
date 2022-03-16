@@ -13,8 +13,10 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 	time_t t = time(NULL);
 	size_t tmp_size_buf=BUF_SIZE+1; 
 	bool xss=false,sqli=false,pathtraversal=false,match=false,block=false,blacklist=false,match_list=false,isrequest=false;
-	char *tmp3=xallocaarray(tmp_size_buf,sizeof(char)),*tmp4=tmp3,*d=ctime(&t); 
-
+//xallocaarray returns a pointer to the stack area. use after return
+	char *tmp3=xmallocarray(tmp_size_buf,sizeof(char)),*tmp4=tmp3,*d=ctime(&t); 
+// ptr to the start address because in block_waf_level2 block_waf_level4 the ptr is modified, so it couldn't be freed	
+	char *tmp3_init = tmp3;
 // so this part i use GOTO, don't have problem, don't have dragons here, its only loop unrolling...
 
 	if(blacklist_ip(addr)==true) // function in blacklist.c
@@ -54,6 +56,9 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 	{
 		char *http_request2=all2lowcase(clbuf);
 		strlcpy(tmp3,http_request2,tmp_size_buf);
+//Freeing http_request2 because is not used anymore
+		burn_mem(http_request2,0,strlen(http_request2)-1);
+		XFREE(&http_request2);
 	} else {
 		strlcpy(tmp3,(char *)clbuf,tmp_size_buf); 
 	}
@@ -129,7 +134,7 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 		snprintf(report,tmp_size,"Path Traversal Attack\n IP: %s\n Time: %s\n Request:\n%s\n-----\n",addr,d,buf);
 		WriteFile(logfile,report);
 		burn_mem(report,0,BUF_SIZE+255);
-		XFREE(report);
+		XFREE(&report);
 		block=true;
 	}
 
@@ -141,7 +146,7 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 		snprintf(report,tmp_size,"SQL injection Attack\n IP: %s\n Time: %s\n Request:\n%s\n-----\n",addr,d,buf);
 		WriteFile(logfile,report);
 		burn_mem(report,0,BUF_SIZE+255);
-		XFREE(report);
+		XFREE(&report);
 		block=true;
 	}
 
@@ -153,7 +158,7 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 		snprintf(report,tmp_size,"Cross-site scripting\n IP: %s\n Time: %s\n Request:\n%s\n-----\n",addr,d,buf);
 		WriteFile(logfile,report);
 		burn_mem(report,0,BUF_SIZE+255);
-		XFREE(report);
+		XFREE(&report);
 		block=true;
 	}
 
@@ -167,10 +172,9 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 		snprintf(report,256,"Address at blacklist try connect\n IP: %s\n Time: %s\n-----\n",addr,d);
 		WriteFile(logfile,report);
 		burn_mem(report,0,255);
-		XFREE(report);
+		XFREE(&report);
 		block=true;
-		burn_mem(addr,0,strlen(addr));
-		XFREE(addr);
+		
 	}
 
 
@@ -187,16 +191,22 @@ bool Judge_malicious(char *buf, const int BUF_SIZE, char *addr, char *logfile, i
 		snprintf(report,total,"String at match list try connect\n IP: %s\n Time: %s\n Match: %s \n Buffer: %s\n",addr,d,match_string,buf);
 		WriteFile(logfile,report);
 		burn_mem(report,0,total-1);
-		XFREE(report);
+		XFREE(&report);
 		block=true;	
 	}
 
 	end_JMP:
 
-	burn_mem(addr,0,strlen(addr));
-	XFREE(addr);
-
+	if (match_string != NULL) 
+		burn_mem(match_string, 0 , 1023);
+	XFREE(&match_string);
+	
+	burn_mem(tmp3_init, 0 , BUF_SIZE);
+	XFREE(&tmp3_init);
+	
+	burn_mem(tmpbuf, 0, BUF_SIZE-1);
+	XFREE(&tmpbuf);
 		
-    	return block;
+    return block;
 }
 

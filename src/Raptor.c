@@ -16,6 +16,8 @@
 #include "matchlist.h" 
 #include "validate.h" // argvs_validate
 
+
+
 void init_banner_raptor()
 {
  puts(
@@ -74,9 +76,8 @@ static struct option long_options[] =
 
 int main(int argc, char ** argv)
 {
- 	char c;
+ 	signed char c;
 	short options_match=0;
-
  	no_write_coredump();
  	load_signal_alarm();
 	param.wafmode=0;

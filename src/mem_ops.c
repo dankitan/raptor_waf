@@ -48,6 +48,7 @@ void *xmallocarray (size_t nmemb, size_t size)
 		exit(0);
 	}
 
+	
 	return ptr;
 }
 
@@ -65,7 +66,7 @@ void *xmalloc (size_t size)
 
 	if (ptr == NULL) 
 		return xmalloc_fatal(size);
-
+ 
 	return ptr;
 }
 
